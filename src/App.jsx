@@ -40,6 +40,19 @@ function App() {
     const newProducts = products.filter((product) => product.id !== idToDelete);
     setProducts(newProducts);
   };
+
+  const handleUpdateStock = (id, newStock) => {
+    if (newStock < 0) return;
+
+    const updatedProducts = products.map((product) => {
+      if (product.id === id) {
+        return { ...product, stock: newStock };
+      }
+      return product;
+    });
+
+    setProducts(updatedProducts);
+  };
   return (
     <div className="min-h-screen bg-slate-100">
       <Header />
@@ -51,7 +64,11 @@ function App() {
           Current Inventory
         </h2>
 
-        <ProductList products={products} deleteProduct={handleDeleteProduct} />
+        <ProductList
+          products={products}
+          deleteProduct={handleDeleteProduct}
+          updateStock={handleUpdateStock}
+        />
       </main>
     </div>
   );

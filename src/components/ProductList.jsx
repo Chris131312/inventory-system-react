@@ -1,4 +1,4 @@
-function ProductList({ products, deleteProduct }) {
+function ProductList({ products, deleteProduct, updateStock }) {
   if (products.length === 0) {
     return (
       <div className="text-center p-10 bg-white rounded-lg shadow-sm">
@@ -27,6 +27,29 @@ function ProductList({ products, deleteProduct }) {
               <p className="text-2xl font-bold text-slate-900">
                 ${product.price}
               </p>
+            </div>
+
+            <div className="flex items-center justify-between bg-slate-50 p-3 rounded-lg">
+              <span
+                className={`text-sm font-medium ${product.stock > 0 ? "text-slate-600" : "text-red-500"}`}
+              >
+                Stock: {product.stock}
+              </span>
+
+              <div className="flex gap-2">
+                <button
+                  onClick={() => updateStock(product.id, product.stock - 1)}
+                  className="w-8 h-8 flex items-center justify-center bg-white border border-slate-300 rounded hover:bg-slate-100 text-indigo-600 font-bold"
+                >
+                  -
+                </button>
+                <button
+                  onClick={() => updateStock(product.id, product.stock + 1)}
+                  className="w-8 h-8 flex items-center justify-center bg-white border border-slate-300 rounded hover:bg-slate-100 text-indigo-600 font-bold"
+                >
+                  +
+                </button>
+              </div>
             </div>
             <div
               className={`text-sm font-medium ${product.stock > 0 ? "text-green-600" : "text-red-500"}`}
