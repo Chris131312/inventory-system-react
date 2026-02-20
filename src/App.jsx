@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Toaster, toast } from "sonner";
 import Header from "./components/Header";
 import ProductList from "./components/ProductList";
 import ProductForm from "./components/ProductForm";
@@ -43,11 +44,19 @@ function App() {
 
   const handleAddProduct = (newProduct) => {
     setProducts([...products, newProduct]);
+    toast.success(`${newProduct.name} added to inventory`);
   };
 
   const handleDeleteProduct = (idToDelete) => {
+    const productToDelete = products.find((p) => p.id === idToDelete);
     const newProducts = products.filter((product) => product.id !== idToDelete);
     setProducts(newProducts);
+
+    if (productToDelete) {
+      toast.error(`${productToDelete.name} removed from sustem.`);
+    } else {
+      toast.error("Product removed from system.");
+    }
   };
 
   const handleUpdateStock = (id, newStock) => {
@@ -74,6 +83,7 @@ function App() {
 
   return (
     <div className="min-h-screen bg-slate-100">
+      <Toaster richColors position="bottom-right`" />
       <Header />
 
       <main className="p-8 max-w-7xl mx-auto">
