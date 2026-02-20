@@ -28,6 +28,8 @@ function App() {
     }
   });
 
+  const [searchTerm, setSearchTerm] = useState("");
+
   useEffect(() => {
     localStorage.setItem("inventory_products", JSON.stringify(products));
   }, [products]);
@@ -53,6 +55,11 @@ function App() {
 
     setProducts(updatedProducts);
   };
+
+  const filteredProducts = products.filter((product) => {
+    return product.name.toLowerCase().includes(searchTerm.toLocaleLowerCase());
+  });
+
   return (
     <div className="min-h-screen bg-slate-100">
       <Header />
@@ -60,12 +67,22 @@ function App() {
       <main className="p-8 max-w-7xl mx-auto">
         <ProductForm addProduct={handleAddProduct} />
 
+        <div className="mb-8 bg-white p-4 rounded-lg shadow-sm border border-slate-200">
+          <input
+            type="text"
+            placeholder="Search products by name..."
+            className="w-full p-3 rounded bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
+
         <h2 className="text-2xl font-bold text-slate-800 mb-6 mt-8">
           Current Inventory
         </h2>
 
         <ProductList
-          products={products}
+          products={filteredProducts}
           deleteProduct={handleDeleteProduct}
           updateStock={handleUpdateStock}
         />
