@@ -30,6 +30,13 @@ function App() {
 
   const [searchTerm, setSearchTerm] = useState("");
 
+  const [selectedCategory, setSelectedCategory] = useState("All");
+
+  const categories = [
+    "All",
+    ...new Set(products.map((product) => product.category)),
+  ];
+
   useEffect(() => {
     localStorage.setItem("inventory_products", JSON.stringify(products));
   }, [products]);
@@ -57,7 +64,12 @@ function App() {
   };
 
   const filteredProducts = products.filter((product) => {
-    return product.name.toLowerCase().includes(searchTerm.toLocaleLowerCase());
+    const matchesSearch = product.name
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
+    const matchesCategory =
+      selectedCategory === "All" || product.category === selectedCategory;
+    return matchesSearch && matchesCategory;
   });
 
   return (
@@ -67,14 +79,26 @@ function App() {
       <main className="p-8 max-w-7xl mx-auto">
         <ProductForm addProduct={handleAddProduct} />
 
-        <div className="mb-8 bg-white p-4 rounded-lg shadow-sm border border-slate-200">
+        <div className="mb-8 bg-white p-4 rounded-lg shadow-sm border border-slate-200 flex flex-col sm:flex-row gap-4">
           <input
             type="text"
             placeholder="Search products by name..."
-            className="w-full p-3 rounded bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="flex-1 p-3 rounded bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
+
+          <select
+            className="p-3 rounded bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium text-slate-700"
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+          >
+            {categories.map((category) => (
+              <option key={category} value={category}>
+                {category}
+              </option>
+            ))}
+          </select>
         </div>
 
         <h2 className="text-2xl font-bold text-slate-800 mb-6 mt-8">
