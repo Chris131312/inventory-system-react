@@ -3,6 +3,7 @@ import { Toaster, toast } from "sonner";
 import Header from "./components/Header";
 import ProductList from "./components/ProductList";
 import ProductForm from "./components/ProductForm";
+import EditProductModal from "./components/EditProductModal";
 
 function App() {
   const [products, setProducts] = useState(() => {
@@ -33,7 +34,7 @@ function App() {
   const [selectedCategory, setSelectedCategory] = useState("All");
 
   const [productToDelete, setProductToDelete] = useState(null);
-
+  const [productToEdit, setProductToEdit] = useState(null);
   const categories = [
     "All",
     ...new Set(products.map((product) => product.category)),
