@@ -113,7 +113,7 @@ function App() {
         <div className="mb-8 bg-white p-4 rounded-lg shadow-sm border border-slate-200 flex flex-col sm:flex-row gap-4">
           <input
             type="text"
-            placeholder="🔍 Search products by name..."
+            placeholder="Search products by name..."
             className="flex-1 p-3 rounded bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
