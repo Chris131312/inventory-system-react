@@ -80,6 +80,17 @@ function App() {
 
     setProductToDelete(null);
   };
+  const handleSaveEdit = (updatedProduct) => {
+    const newProducts = products.map((product) => {
+      if (product.id === updatedProduct.id) {
+        return updatedProduct;
+      }
+      return product;
+    });
+    setProducts(newProducts);
+    setProductToEdit(null);
+    toast.success("Product updated successfully!");
+  };
 
   const filteredProducts = products.filter((product) => {
     const matchesSearch = product.name
@@ -129,6 +140,7 @@ function App() {
           products={filteredProducts}
           deleteProduct={handleDeleteProduct}
           updateStock={handleUpdateStock}
+          editProduct={(product) => setProductToEdit(product)}
         />
       </main>
 
@@ -159,6 +171,13 @@ function App() {
             </div>
           </div>
         </div>
+      )}
+      {productToEdit !== null && (
+        <EditProductModal
+          product={productToEdit}
+          onSave={handleSaveEdit}
+          onClose={() => setProductToEdit(null)}
+        />
       )}
     </div>
   );
