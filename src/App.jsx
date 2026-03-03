@@ -4,6 +4,7 @@ import Header from "./components/Header";
 import ProductList from "./components/ProductList";
 import ProductForm from "./components/ProductForm";
 import EditProductModal from "./components/EditProductModal";
+import LoginPage from "./components/LoginPage";
 
 function App() {
   const [products, setProducts] = useState(() => {
@@ -29,6 +30,23 @@ function App() {
       ];
     }
   });
+
+  const [user, setUser] = useState(() => {
+    const savedUser = localStorage.getItem("inventory_user");
+    return savedUser ? JSON.parse(savedUser) : null;
+  });
+
+  const handleLogin = (userData) => {
+    setUser(userData);
+    localStorage.setItem("inventory_user", JSON.stringify(userData));
+    toast.success(`Welcome back, ${userData.name}!`);
+  };
+
+  const handleLogout = () => {
+    setUser(null);
+    localStorage.removeItem("inventory_user");
+    toast.info("You have been logget out.");
+  };
 
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
@@ -101,11 +119,20 @@ function App() {
     return matchesSearch && matchesCategory;
   });
 
+  if (!user) {
+    return (
+      <>
+        <Toaster richColors position="bottom-right" />
+        <LoginPage onLogin={handleLogin} />
+      </>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-slate-100">
       <Toaster richColors position="bottom-right" />
 
-      <Header />
+      <Header user={user} onLogout={handleLogout} />
 
       <main className="p-8 max-w-7xl mx-auto">
         <ProductForm addProduct={handleAddProduct} />
