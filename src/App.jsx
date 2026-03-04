@@ -5,6 +5,7 @@ import ProductList from "./components/ProductList";
 import ProductForm from "./components/ProductForm";
 import EditProductModal from "./components/EditProductModal";
 import LoginPage from "./components/LoginPage";
+import DashboardStats from "./components/DashboardStats";
 
 function App() {
   const [products, setProducts] = useState(() => {
@@ -135,6 +136,7 @@ function App() {
       <Header user={user} onLogout={handleLogout} />
 
       <main className="p-8 max-w-7xl mx-auto">
+        <DashboardStats products={products} />
         <ProductForm addProduct={handleAddProduct} />
 
         <div className="mb-8 bg-white p-4 rounded-lg shadow-sm border border-slate-200 flex flex-col sm:flex-row gap-4">
