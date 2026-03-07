@@ -4,7 +4,9 @@ function Header({ user, onLogout }) {
       <div className="max-w-7xl mx-auto flex justify-between items-center">
         <div className="flex items-center gap-2">
           <span className="text-2xl">📦</span>
-          <h1 className="text-xl font-bold tracking-wide">Inventory App</h1>
+          <h1 className="text-xl font-bold tracking-wide">
+            Inventory Managment System
+          </h1>
         </div>
         {user && (
           <div className="flex items-enter gap-4">

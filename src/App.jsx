@@ -6,31 +6,20 @@ import ProductForm from "./components/ProductForm";
 import EditProductModal from "./components/EditProductModal";
 import LoginPage from "./components/LoginPage";
 import DashboardStats from "./components/DashboardStats";
+import { data } from "autoprefixer";
 
 function App() {
-  const [products, setProducts] = useState(() => {
-    const savedProducts = localStorage.getItem("inventory_products");
-    if (savedProducts) {
-      return JSON.parse(savedProducts);
-    } else {
-      return [
-        {
-          id: 1,
-          name: "Gaming Laptop",
-          price: 1500,
-          category: "Tech",
-          stock: 5,
-        },
-        {
-          id: 2,
-          name: "Wireless Mouse",
-          price: 25,
-          category: "Accessories",
-          stock: 12,
-        },
-      ];
-    }
-  });
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    fetch("http://127.0.0.1:8000/products")
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Datos recibidos de Python:", data);
+        setProducts(data);
+      })
+      .catch((error) => console.error("Error conectando:", error));
+  }, []);
 
   const [user, setUser] = useState(() => {
     const savedUser = localStorage.getItem("inventory_user");
